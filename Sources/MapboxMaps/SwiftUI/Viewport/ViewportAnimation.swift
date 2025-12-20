@@ -42,11 +42,7 @@ public struct ViewportAnimation {
     /// The fly animation usually follows the zoom-out, flight, zoom-in pattern in animation.
     /// The duration of the animation will be calculated automatically.
     public static var fly: ViewportAnimation {
-        return ViewportAnimation { mapView in
-            GenericViewportTransition { cameraOptions, completion in
-                mapView.camera.fly(to: cameraOptions, duration: nil, completion: completion)
-            }
-        }
+        return fly(duration: nil, curve: .easeOut)
     }
 
     /// A fly animation with a specified duration.
@@ -57,9 +53,21 @@ public struct ViewportAnimation {
     ///   - duration: Duration of the animation, measured in seconds.
     /// - Returns: A fly animation.
     public static func fly(duration: TimeInterval) -> ViewportAnimation {
+        return fly(duration: duration, curve: .easeOut)
+    }
+
+    /// A fly animation with a specified duration and timing curve.
+    ///
+    /// The fly animation usually follows the zoom-out, flight, zoom-in pattern in animation.
+    ///
+    /// - Parameters:
+    ///   - duration: Duration of the animation, measured in seconds. If `nil`, the duration will be calculated automatically.
+    ///   - curve: The timing curve of the animation.
+    /// - Returns: A fly animation.
+    public static func fly(duration: TimeInterval? = nil, curve: TimingCurve) -> ViewportAnimation {
         return ViewportAnimation { mapView in
             GenericViewportTransition { cameraOptions, completion in
-                mapView.camera.fly(to: cameraOptions, duration: duration, completion: completion)
+                mapView.camera.fly(to: cameraOptions, duration: duration, curve: curve, completion: completion)
             }
         }
     }
